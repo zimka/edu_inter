@@ -11,7 +11,7 @@ import pandas as pd
 from django.conf import settings
 
 from edu_coresys.models import Directions
-from apps.interpreter.models import PleQuestionIdUuidMap
+from apps.interpreter_deprecated.models import PleQuestionIdUuidMap
 
 
 def equals_approx(value, prec, eps=0.05):

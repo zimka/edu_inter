@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from apps.interpreter.models import SingleScoreComputeTask
+from apps.interpreter_deprecated.models import SingleScoreComputeTask
 
 
 class Command(BaseCommand):
