@@ -8,10 +8,10 @@ MathHumanityScale = create_multiscale(name="MathHumanity", keys=["math", "humani
 ArchetypesScale = create_multiscale(name="Archetype", keys=["fighter", "visionary", "chaser"])
 
 
-class ExampleAgregator(Aggregator):
+class ExampleAggregator(Aggregator):
     """
     Пример агрегатора, собирающего из оценки по математике и значений архетипов
-    значения цифрового профиля по ключам "Дата-аналитик" и "Лидер сообществ"
+    значения цифрового профиля по ключам "Дата-аналитик" и "Лидер сообществ".
     """
     DP_FORMAT = ExampleResultScale
 
@@ -35,11 +35,14 @@ class ExampleAgregator(Aggregator):
 
 class ExampleInterpretationComputer(InterpretationComputer):
     """
-    Пример вычислителя интерпретации
+    Пример вычислителя интерпретации.
+    Вычисляет ExampleResultScale на основе вопроса по математике и результатов архетипов.
+    Обработка вопроса по математике - внутренняя, а архетипов - внешняя, поэтому
+    Processor только один.
     """
     def __init__(self, config):
         super().__init__(config)
-        self.aggregator = ExampleAgregator(config=config)
+        self.aggregator = ExampleAggregator(config=config)
         self.processors = [
             Processor([
                 IntTypedScorer.check_equals(9,   MathHumanityScale(math=3),              42),
@@ -54,7 +57,7 @@ class ExampleInterpretationComputer(InterpretationComputer):
             "id_math_question": "uuid вопроса по математике",
             "source_math_question": "url откуда брать ответы на вопрос по математике",
         }
-        args.update(ExampleAgregator.get_config_args())
+        args.update(ExampleAggregator.get_config_args())
         return args
 
     @classmethod
