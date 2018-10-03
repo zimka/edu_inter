@@ -14,11 +14,17 @@ class Processor:
     теста определенного пользователя.
     """
 
-    def __init__(self, scorers: List[Scorer], scale: Multiscale):
+    def __init__(self, scorers: List[Scorer], scale: Multiscale, selector_name=None):
         self.scorers = scorers
         self.scale = scale
+        self.selector_name = selector_name
 
-    def get_structured(self, content) -> Multiscale:
+    def get_selector_name(self):
+        if not self.selector_name:
+            raise ValueError("Processor's name was requested but not defined")
+        return self.selector_name
+
+    def apply(self, content) -> Multiscale:
         total = self.scale.from_numeric(0)
         try:
             for sc in self.scorers:

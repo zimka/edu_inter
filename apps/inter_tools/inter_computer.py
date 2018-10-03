@@ -5,12 +5,15 @@ from apps.scoring import Multiscale
 class InterpretationComputer:
     """
     Вычислитель интерпретации. Переводит сырой/структурированный цифровой
-    след в элементы цифрового профиля
+    след в элементы цифрового профиля.
+    Обработка сырого цифрового следа происходит в списке processors, аггрегация
+    в методе .aggregate
     """
+    DP_FORMAT = None
+
     def __init__(self, config:Dict):
         self.config = config
         self.processors = []
-        self.aggregator = None
 
     @classmethod
     def get_config_args(cls) -> Dict[str, str]:
@@ -39,3 +42,23 @@ class InterpretationComputer:
         выполняется только 3 этап
         """
         raise NotImplemented
+
+    def aggregate(self, **kwargs: Multiscale) -> DP_FORMAT:
+        """
+        Возвращает результат интерпретации в формате метамодели.
+        Получает результаты обработки в виде различных подклассов
+        Multiscale и компилирует в одну Multiscale, соответствующую
+        метамодели интерпретации
+        """
+        raise NotImplemented
+
+    def process(self, content) -> Dict[str, Multiscale]:
+        """
+        Применяет все обработчики к соответствующему разделу контента.
+        """
+        results = {}
+        for proc in self.processors:
+            selector_key = proc.get_selector_name()
+            related_content = content.get(selector_key)
+            results[selector_key] = proc.apply(related_content)
+        return results

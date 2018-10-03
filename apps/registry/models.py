@@ -24,6 +24,9 @@ class InterpreterRegistry(models.Model):
     config = JSONField(default={})
     is_valid = models.BooleanField(default=False)
 
+    class Meta:
+        unique_together = ("context", "metamodel")
+
     def compute(self, **kwargs):
         inter_computer_cls = AVAILABLE_INTERPRETER_IMPLEMENTAIONS.get(self.compute_descr, None)
         if inter_computer_cls is None:

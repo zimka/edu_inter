@@ -11,7 +11,7 @@ class ExampleInterTestCase(TestCase):
         self.assertTrue(res.data_analytic == -2)
         self.assertTrue(res.community_leader == 8)
 
-    def test_equal(self):
+    def test_weight_zero(self):
         ic = ExampleInterpretationComputer({
             "weight_math_question": 0
         })
